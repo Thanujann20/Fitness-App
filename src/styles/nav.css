@@ -1,0 +1,27 @@
+
+.nav {
+    background-color: aquamarine;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+    font-size: 2rem;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 10rem;
+    font-size: 1.5rem;
+}
+
+.nav a{
+    text-decoration: none;
+    color:black
+}
+
+.nav a:hover {
+    color:white;
+    cursor: pointer;
+}

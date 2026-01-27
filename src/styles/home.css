@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    gap: 2rem; 
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.Header {
+    text-align: center;
+    margin: 2rem;
+    color: whitesmoke;
+}
