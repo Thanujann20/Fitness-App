@@ -25,3 +25,8 @@
     color:white;
     cursor: pointer;
 }
+
+.nav p {
+    color: black;
+    font-size: 2rem;
+}
