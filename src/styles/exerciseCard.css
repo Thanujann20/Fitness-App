@@ -1,0 +1,87 @@
+.ECard {
+    position: relative;
+    color: black;
+    background: linear-gradient(to bottom, red 30%, white 70%);
+    border-radius: 20px;
+    font-size: 2rem;
+    text-align: center;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+   
+}
+
+.ECard h5 {
+    color: white;
+}
+
+.ECard p {
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 2rem;
+    color: black;
+    letter-spacing: 1px;
+}
+
+button {
+    background-color: #000207;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100px;
+}
+
+button:hover {
+    cursor: pointer;
+    color: #640303e7;
+    background-color: rgb(243, 156, 156);
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: center;   
+    gap: 10px;                 
+}
+
+.editing {
+    display: grid;
+    grid-template-columns: 80px 150px; 
+    row-gap: 10px;
+    column-gap: 10px;
+    font-size: 1.2rem;
+    align-items: center;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.ECard input {
+    background-color: #ed8e8e;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    text-align: center;
+    margin: 10px;
+   
+}
+
+.ECard input::placeholder {
+    color: black;
+    opacity: 1;
+}
+
+.completed {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.completed img{
+    width: 50%;
+    height: 30%;
+}

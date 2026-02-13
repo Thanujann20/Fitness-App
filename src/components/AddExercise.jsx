@@ -5,17 +5,16 @@ export default function AddExercise() {
         e.preventDefault();
         const name = e.target.name.value;
         const weight = e.target.weight.value;
-        const set = e.target.sets.value;
+        const sets = e.target.sets.value;
         const reps = e.target.reps.value;
 
-        // call parent handler
-        onAdd({ name, weight, reps });
+        onAdd({ name, weight, sets, reps });
 
         e.target.reset();
     }
 
     return (
-        <div>
+        <div className="edit">
             <form onSubmit={handleSubmit}>
                 <p>
                     <label htmlFor="name"> Name: </label>
@@ -33,9 +32,10 @@ export default function AddExercise() {
                     <label htmlFor="reps"> Reps: </label>
                     <input type="text" id="reps" name="reps" />
                 </p>
-                <p className="button">
-                    <button type="submit">Add Exercise</button>
-                </p>
+                <div className="buttonRow">
+                        <button onClick={() => setEditing(true)}>Add</button>
+                        <button onClick={() => setComplete(true)}>Cancel</button>
+                    </div>
             </form>
         </div>
     )

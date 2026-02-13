@@ -13,7 +13,7 @@ export default function Workouts() {
             <h1 className="Header">Choose Target Area, Create or Start Workout</h1>
             <div className="container">
                 <Card title="Chest" image={chestImg} to="/Chest" />
-                <Card title="Arms" image={armImg} to="/Arms" />
+                <Card title="Arms and Shoulders" image={armImg} to="/Arms" />
                 <Card title="Back" image={backImg} to="/Back" />
                 <Card title="Legs" image={legsImg} to="/Legs" />
                 <Card title="Core" image={coreImg} to="/Core" />
