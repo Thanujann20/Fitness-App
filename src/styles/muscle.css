@@ -18,3 +18,8 @@ p {
     padding: 10px;
 }
 
+.backBtn {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+}

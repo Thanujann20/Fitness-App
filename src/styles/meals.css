@@ -1,0 +1,54 @@
+.backBtn {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.search {    
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.search input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    width: 300px;
+}
+
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    padding: 20px
+}
+
+.results input {
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+    width: 75px;
+}
+
+.results label {
+    margin: 5px;
+    color: white;
+    font-size: 1rem;
+}
+
+h2 {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    color: aquamarine
+}
+
+.meals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    padding: 20px
+}

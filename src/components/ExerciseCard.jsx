@@ -9,6 +9,7 @@ export default function ExerciseCard({ exercise, index, onUpdate }) {
     const [completed, setComplete] = useState(false);
 
     const [formData, setFormData] = useState({
+        name: exercise.name,
         weight: exercise.weight,
         sets: exercise.sets,
         reps: exercise.reps
@@ -25,6 +26,12 @@ export default function ExerciseCard({ exercise, index, onUpdate }) {
         const weight = formData.weight.trim();
         const sets = formData.sets.trim();
         const reps = formData.reps.trim();
+
+        // Validate Name
+        if (!formData.name.trim()) {
+            alert("Name cannot be empty");
+            return;
+        }
 
         // Validate weight
         if (!weight) {
@@ -58,6 +65,7 @@ export default function ExerciseCard({ exercise, index, onUpdate }) {
 
         onUpdate(index, {
             ...exercise,
+            name: formData.name,
             weight,
             sets,
             reps
@@ -71,6 +79,15 @@ export default function ExerciseCard({ exercise, index, onUpdate }) {
 
             {editing ? (
                 <>  
+                <div className="editing">
+                    <label htmlFor="name">Name:</label>
+                    <input
+                        name="name"
+                        placeholder="Name"
+                        value={formData.name}
+                        onChange={handleChange}
+                    />
+                </div>
                 <div className="editing">
                     <label htmlFor="weight">Weight:</label>
                     <input
@@ -102,7 +119,15 @@ export default function ExerciseCard({ exercise, index, onUpdate }) {
                 </div>
                     <div className="buttonRow">
                         <button onClick={handleSave}>Save</button>
-                        <button onClick={() => setEditing(false)}>Cancel</button>
+                        <button onClick={() => {
+                            setEditing(false);
+                            setFormData({
+                                name: exercise.name,
+                                weight: exercise.weight,
+                                sets: exercise.sets,
+                                reps: exercise.reps
+                            });
+                        }}>Cancel</button>
                     </div>
                 </>
             ) : (

@@ -1,42 +1,99 @@
+import { useState } from "react"
 import "../styles/addExercise.css"
 
-export default function AddExercise() {
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const name = e.target.name.value;
-        const weight = e.target.weight.value;
-        const sets = e.target.sets.value;
-        const reps = e.target.reps.value;
+export default function AddExercise({ onAdd, onCancel }) {
+    
+    const [formData, setFormData] = useState({
+            name: "",
+            weight: "",
+            sets: "",
+            reps: ""
+        });
 
-        onAdd({ name, weight, sets, reps });
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
 
-        e.target.reset();
-    }
+    const handleSave = () => {
+        const weight = formData.weight.trim();
+        const sets = formData.sets.trim();
+        const reps = formData.reps.trim();
+
+        // Validate Name
+        if (!formData.name.trim()) {
+            alert("Name cannot be empty");
+            return;
+        }
+
+        // Validate weight
+        if (!weight) {
+            alert("Weight cannot be empty");
+            return;
+        }
+        if (weight.toLowerCase() !== "bodyweight" && !/^\d+$/.test(weight)) {
+            alert("Weight must be a number or Bodyweight");
+            return;
+        }
+
+        // Validate sets
+        if (!sets || !/^\d+$/.test(sets) || parseInt(sets) <= 0) {
+            alert("Sets must be a positive number");
+            return;
+        }
+
+        // Validate reps
+        if (!reps) {
+            alert("Reps cannot be empty");
+            return;
+        }
+
+        const isNumber = /^\d+$/.test(reps) && parseInt(reps) > 0;
+        const isTime = /^\d+\s*(sec|secs|seconds|mins|minutes|min)?$/i.test(reps);
+
+        if (!isNumber && !isTime) {
+            alert("Reps must be a positive number or time such as '60 sec' or '1 min'");
+            return;
+        }
+
+        onAdd(formData);
+        onCancel();
+    };
 
     return (
         <div className="edit">
-            <form onSubmit={handleSubmit}>
-                <p>
-                    <label htmlFor="name"> Name: </label>
-                    <input type="text" id="name" name="name" />
-                </p>
-                <p>
-                    <label htmlFor="weight"> Weight: </label>
-                    <input type="text" id="weight" name="weight" />
-                </p>
-                 <p>
-                    <label htmlFor="sets"> Sets: </label>
-                    <input type="text" id="sets" name="sets" />
-                </p>
-                <p>
-                    <label htmlFor="reps"> Reps: </label>
-                    <input type="text" id="reps" name="reps" />
-                </p>
-                <div className="buttonRow">
-                        <button onClick={() => setEditing(true)}>Add</button>
-                        <button onClick={() => setComplete(true)}>Cancel</button>
-                    </div>
-            </form>
+            <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Exercise Name"
+            />
+            <input
+                name="weight"
+                value={formData.weight}
+                onChange={handleChange}
+                placeholder="Weight (e.g. 100)"
+            />
+            <input
+                name="sets"
+                value={formData.sets}
+                onChange={handleChange}
+                placeholder="Sets"
+            />
+            <input
+                name="reps"
+                value={formData.reps}
+                onChange={handleChange}
+                placeholder="Reps (e.g. 10 or 60 sec)"
+            />
+            <div className="buttonRow">
+                <button onClick={handleSave}>Save</button>
+                <button onClick={onCancel}>Cancel</button>
+            </div>
+            
         </div>
     )
 }
+       

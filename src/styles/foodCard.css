@@ -1,0 +1,26 @@
+.FoodCard {
+    background-color: #0b6544;        
+    border-radius: 12px;              
+    padding: 20px;                    
+    margin: 10px;                     
+    width: 250px;  
+    height: 250px;               
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.FoodCard:hover {
+    transform: translateY(-5px);      
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+}
+
+.FoodCard h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.FoodCard p {
+    margin: 5px 0;
+    color: white;
+    font-size: 1rem;
+}

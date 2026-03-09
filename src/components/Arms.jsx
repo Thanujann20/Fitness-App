@@ -1,9 +1,11 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 import "../styles/muscle.css"
 import AddExercise from "./addExercise"
 import ExerciseCard from "./ExerciseCard"
 
 export default function Arms() {
+    const navigate = useNavigate();
 
     const [exercises, setExercises] = useState([
         { name: "Bicep Curls", weight: "25", sets: "3", reps: "12" },
@@ -15,10 +17,29 @@ export default function Arms() {
         setExercises([...exercises, exercise])
     }
 
+    const [showAddForm, setShowAddForm] = useState(false);
+
     return (
+
         <div>
-            <h1 className="header">Arms and Shoulders</h1>
-            <p> Select or add exercises for your arms and shoulders</p>
+            <div className="backBtn">
+                <button onClick={() => navigate(-1)}>Back</button>
+            </div>
+            <h1 className="header">Arms + Shoulders </h1>
+            <p> Select or add exercises for your arms and shoulder workout</p>
+
+            <div className="addBtn">
+                {!showAddForm && (
+                    <button onClick={() => setShowAddForm(true)}>+ Add Exercise</button>
+                )}
+                {showAddForm && (
+                    <AddExercise
+                        onAdd={handleAddExercise}
+                        onCancel={() => setShowAddForm(false)}
+                    />
+                )}
+            </div>
+            
             <div className="container">
                 {exercises.map((ex, index) => (
                     <ExerciseCard
@@ -32,9 +53,8 @@ export default function Arms() {
                         }}
                     />
                 ))}
-
             </div>
-            <AddExercise onAdd={handleAddExercise}/>
+            
         </div>
     )
 }
