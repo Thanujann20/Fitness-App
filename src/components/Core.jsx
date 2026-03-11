@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import "../styles/muscle.css"
 import AddExercise from "./addExercise"
@@ -7,15 +8,41 @@ import ExerciseCard from "./ExerciseCard"
 export default function Core() {
     const navigate = useNavigate();
 
-    const [exercises, setExercises] = useState([
-        {name: "Plank", weight: "Bodyweight", sets: "3", reps: "60 sec"},
-        {name: "Russian Twists", weight: "20", sets: "4", reps: "20"},
-        {name: "Hanging Leg Raises", weight: "Bodyweight", sets: "3", reps: "15"}
-    ])
+    const [exercises, setExercises] = useState([])
+
+    // Fetch exercises from backend
+    useEffect(() => {
+        axios.get("http://localhost:3000/api/exercises/Core")
+        .then(res => setExercises(res.data))
+        .catch(err => console.log(err));
+    }, []);
 
     const handleAddExercise = (exercise) => {
-        setExercises([...exercises, exercise])
-    }
+        axios.post("http://localhost:3000/api/exercises", { ...exercise, muscleGroup: "Core", userId: "12345" })
+        .then(res => setExercises([...exercises, res.data]))
+        .catch(err => console.log(err));
+    };
+
+    const handleUpdateExercise = (index, updated) => {
+        const ex = exercises[index];
+        axios.put(`http://localhost:3000/api/exercises/${ex._id}`, updated)
+        .then(res => {
+            const newExercises = [...exercises];
+            newExercises[index] = res.data;
+            setExercises(newExercises);
+        })
+        .catch(err => console.log(err));
+    };
+
+    const handleDeleteExercise = (index) => {
+        const ex = exercises[index];
+        axios.delete(`http://localhost:3000/api/exercises/${ex._id}`)
+        .then(() => {
+            const newExercises = exercises.filter((_, i) => i !== index);
+            setExercises(newExercises);
+        })
+        .catch(err => console.log(err));
+    };
 
     const [showAddForm, setShowAddForm] = useState(false);
 
@@ -46,11 +73,8 @@ export default function Core() {
                         key={index}
                         exercise={ex}
                         index={index}
-                        onUpdate={(i, updated) => {
-                            const newExercises = [...exercises];
-                            newExercises[i] = updated;
-                            setExercises(newExercises);
-                        }}
+                        onUpdate={handleUpdateExercise}
+                        onDelete={handleDeleteExercise}
                     />
                 ))}
             </div>

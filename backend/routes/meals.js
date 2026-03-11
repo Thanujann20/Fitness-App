@@ -15,8 +15,15 @@ router.get("/:userId", async (req, res) => {
 
 // Create a new meal
 router.post("/", async (req, res) => {
-  const { userId, title, content } = req.body;
-  const meal = new Meals({ userId, title, content });
+  const { userId, description, calories, protein, carbs, fat } = req.body;
+  const meal = new Meals({ 
+    userId, 
+    description, 
+    calories, 
+    protein, 
+    carbs, 
+    fat 
+  });
   try {
     const savedMeal = await meal.save();
     res.status(201).json(savedMeal);

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const mealSchema = new mongoose.Schema({
+  userId : { type: String, required: true },
   description: { type: String, required: true },
   calories: { type: Number, required: true },
   protein: { type: Number, required: true },
@@ -8,4 +9,4 @@ const mealSchema = new mongoose.Schema({
   fat: { type: Number, required: true }
 });
 
-export default mongoose.model("Meal", mealSchema);
+export default mongoose.model("Meals", mealSchema);

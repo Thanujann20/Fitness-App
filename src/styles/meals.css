@@ -17,6 +17,21 @@
     width: 300px;
 }
 
+.custom {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.customForm {
+    background-color: rgb(231, 231, 231);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 10px;
+}
 .results {
     display: flex;
     flex-wrap: wrap;
@@ -51,4 +66,40 @@ h2 {
     justify-content: center;
     text-align: center;
     padding: 20px
+}
+
+.totals {
+    color: black;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 20px;
+}
+
+.totals p {
+    color: black;
+}
+
+.calories {
+    background-color: rgb(231, 75, 75);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.proteins {
+    background-color: rgb(75, 231, 75);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.carbs {
+    background-color: rgb(75, 75, 231);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.fats {
+    background-color: rgb(231, 231, 75);
+    padding: 30px;
+    border-radius: 10px;
 }
