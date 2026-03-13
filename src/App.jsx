@@ -4,11 +4,13 @@ import Navbar from './components/Navbar'
 import Workouts from './components/Workouts'
 import Meals from './components/Meals'
 import Goals from './components/Goals'
-import Chest from "./components/Chest";
-import Arms from "./components/Arms";
-import Back from "./components/Back";
-import Legs from "./components/Legs";
-import Core from "./components/Core";
+import Chest from "./components/Chest"
+import Arms from "./components/Arms"
+import Back from "./components/Back"
+import Legs from "./components/Legs"
+import Core from "./components/Core"
+import Login from "./components/Login"
+import SignUp from "./components/SignUp"
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
         <Route path="/Back" element={<Back />} />
         <Route path="/Legs" element={<Legs />} />
         <Route path="/Core" element={<Core />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/SignUp" element={<SignUp />} />
       </Routes>
       
     </div>

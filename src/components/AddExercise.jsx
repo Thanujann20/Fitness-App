@@ -18,16 +18,16 @@ export default function AddExercise({ onAdd, onCancel }) {
     };
 
     const handleSave = () => {
-        const weight = formData.weight.trim();
-        const sets = formData.sets.trim();
-        const reps = formData.reps.trim();
+        const weight = String(formData.weight).trim();
+        const sets = String(formData.sets).trim();
+        const reps = String(formData.reps).trim();
 
         // Validate Name
         if (!formData.name.trim()) {
             alert("Name cannot be empty");
             return;
         }
-
+        
         // Validate weight
         if (!weight) {
             alert("Weight cannot be empty");

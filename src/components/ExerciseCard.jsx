@@ -23,9 +23,9 @@ export default function ExerciseCard({ exercise, index, onUpdate, onDelete }) {
     };
 
     const handleSave = () => {
-        const weight = formData.weight.trim();
-        const sets = formData.sets.trim();
-        const reps = formData.reps.trim();
+        const weight = String(formData.weight).trim();
+        const sets = String(formData.sets).trim();
+        const reps = String(formData.reps).trim();
 
         // Validate Name
         if (!formData.name.trim()) {
