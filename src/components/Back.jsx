@@ -1,49 +1,83 @@
 import { useState, useEffect } from "react"
-import axios from "axios"
-import { useNavigate } from "react-router-dom";
+import api from "../api/api"
+import { useNavigate } from "react-router-dom"
+import useRequireAuth from "../hooks/useRequireAuth"
 import "../styles/muscle.css"
 import AddExercise from "./addExercise"
 import ExerciseCard from "./ExerciseCard"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 export default function Back() {
-    const navigate = useNavigate();
+    useRequireAuth()
+    const navigate = useNavigate()
 
-    const [exercises, setExercises] = useState([]);
+    const [exercises, setExercises] = useState([])
+    const [selectedDate, setSelectedDate] = useState(new Date())
+    const formattedDate = selectedDate.toISOString().split("T")[0]
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date)
+    }
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/exercises/Back")
+        const token = localStorage.getItem("token")
+        if (!token) {
+            navigate("/Login")
+            return
+        }
+        api.get("/exercises/Back")
         .then(res => setExercises(res.data))
-        .catch(err => console.log(err));
-    }, []);
+        .catch(err => {
+            console.log(err)
+            if (err.response?.status === 401) {
+                navigate("/Login")
+            }
+        })
+    }, [navigate])
 
     const handleAddExercise = (exercise) => {
-        axios.post("http://localhost:3000/api/exercises", { ...exercise, muscleGroup: "Back", userId: "12345" })
+        const token = localStorage.getItem("token")
+        api.post("/exercises", { ...exercise, muscleGroup: "Back" })
         .then(res => setExercises([...exercises, res.data]))
-        .catch(err => console.log(err));
-    };
+        .catch(err => console.log(err))
+    }
 
     const handleUpdateExercise = (index, updated) => {
-        const ex = exercises[index];
-        axios.put(`http://localhost:3000/api/exercises/${ex._id}`, updated)
+        const ex = exercises[index]
+        const token = localStorage.getItem("token")
+        api.put(`/exercises/${ex._id}`, updated)
         .then(res => {
-            const newExercises = [...exercises];
-            newExercises[index] = res.data;
-            setExercises(newExercises);
+            const newExercises = [...exercises]
+            newExercises[index] = res.data
+            setExercises(newExercises)
         })
-        .catch(err => console.log(err));
-    };
+        .catch(err => console.log(err))
+    }
+
+    const handleCompleteExercise = (index, updated) => {
+        const ex = exercises[index]
+        api.put(`/exercises/${ex._id}`, updated)
+        .then(res => {
+            const newExercises = [...exercises]
+            newExercises[index] = res.data
+            setExercises(newExercises)
+        })
+        .catch(err => console.log(err))
+    }
 
     const handleDeleteExercise = (index) => {
-        const ex = exercises[index];
-        axios.delete(`http://localhost:3000/api/exercises/${ex._id}`)
+        const ex = exercises[index]
+        const token = localStorage.getItem("token")
+        api.delete(`/exercises/${ex._id}`)
         .then(() => {
-            const newExercises = exercises.filter((_, i) => i !== index);
-            setExercises(newExercises);
+            const newExercises = exercises.filter((_, i) => i !== index)
+            setExercises(newExercises)
         })
-        .catch(err => console.log(err));
-    };
+        .catch(err => console.log(err))
+    }
 
-    const [showAddForm, setShowAddForm] = useState(false);
+    const [showAddForm, setShowAddForm] = useState(false)
 
     return (
 
@@ -53,6 +87,10 @@ export default function Back() {
             </div>
             <h1 className="header">Back</h1>
             <p> Select or add exercises for your back workout</p>
+
+            <div className="date">
+                <DatePicker selected={selectedDate} onChange={handleDateChange} />
+            </div>
 
             <div className="addBtn">
                 {!showAddForm && (
@@ -65,19 +103,21 @@ export default function Back() {
                     />
                 )}
             </div>
-            
+
+            <h2>Exercises for {formattedDate}</h2>
             <div className="container">
                 {exercises.map((ex, index) => (
                     <ExerciseCard
                         key={index}
                         exercise={ex}
                         index={index}
-                        onUpdate={handleUpdateExercise}
+                        onUpdate={handleUpdateExercise}                        
+                        onComplete={handleCompleteExercise}                        
                         onDelete={handleDeleteExercise}
                     />
                 ))}
             </div>
-            
+
         </div>
     )
 }

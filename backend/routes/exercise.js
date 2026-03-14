@@ -4,10 +4,10 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Get exercises by muscle group
+// Get exercises by muscle group and user
 router.get("/:muscleGroup", verifyToken, async (req, res) => {
     try {
-        const exercises = await Exercise.find({ muscleGroup: req.params.muscleGroup })
+        const exercises = await Exercise.find({ muscleGroup: req.params.muscleGroup, userId: req.user.id })
         res.json(exercises);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -60,11 +60,14 @@ router.put("/:id", verifyToken, async (req, res) => {
             return res.status(403).json({ message: "Access denied" });
         }
 
-        exercise.name = name;
-        exercise.weight = weight;
-        exercise.sets = sets;
-        exercise.reps = reps;
-        exercise.muscleGroup = muscleGroup;
+        exercise.name = name ?? exercise.name;
+        exercise.weight = weight ?? exercise.weight;
+        exercise.sets = sets ?? exercise.sets;
+        exercise.reps = reps ?? exercise.reps;
+        exercise.muscleGroup = muscleGroup ?? exercise.muscleGroup;
+        if (typeof req.body.completed === "boolean") {
+            exercise.completed = req.body.completed;
+        }
 
         const updatedExercise = await exercise.save();
         res.json(updatedExercise);

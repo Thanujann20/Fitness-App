@@ -77,12 +77,11 @@ button:hover {
     position: absolute;
     inset: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    float: left;
     border-radius: 15px;
 }
 
 .completed img{
-    width: 50%;
-    height: 30%;
+    width: 30%;
+    height: 20%;
 }

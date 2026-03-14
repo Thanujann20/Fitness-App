@@ -2,11 +2,13 @@
 .nav {
     background-color: aquamarine;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
     padding: 0 1rem;
     font-size: 2rem;
+    width: 100%;
 }
 
 .nav ul {
@@ -26,7 +28,9 @@
     cursor: pointer;
 }
 
+
 .nav p {
     color: black;
     font-size: 2rem;
+    font-weight: bold;
 }

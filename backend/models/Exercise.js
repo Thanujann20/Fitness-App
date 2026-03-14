@@ -6,7 +6,8 @@ const exerciseSchema = new mongoose.Schema({
     weight: { type: String, required: true },
     sets: { type: Number, required: true },
     reps: { type: String, required: true },
-    muscleGroup: { type: String, required: true }
+    muscleGroup: { type: String, required: true },
+    completed: { type: Boolean, default: false }
 });
 
 export default mongoose.model("Exercise", exerciseSchema);

@@ -17,6 +17,7 @@
     width: 300px;
 }
 
+
 .custom {
     display: flex;
     justify-content: center;
@@ -102,4 +103,23 @@ h2 {
     background-color: rgb(231, 231, 75);
     padding: 30px;
     border-radius: 10px;
+}
+
+.date-meals {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
+}
+.date-meals p {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.date-meals input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    background-color: rgb(176, 230, 187);
 }

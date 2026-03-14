@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import "../styles/account.css"
-import axios from "axios"
+import api from "../api/api"
 import { useNavigate } from "react-router-dom"
 
 export default function Login() {
@@ -29,7 +29,7 @@ export default function Login() {
             return
         }
         try {
-            const response = await axios.post("http://localhost:3000/api/auth/login", {
+            const response = await api.post("/auth/login", {
                 username,
                 password
             })

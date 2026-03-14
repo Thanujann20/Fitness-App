@@ -7,7 +7,19 @@ import backImg from "../assets/back.jpeg";
 import legsImg from "../assets/legs.jpeg";
 import coreImg from "../assets/core.jpeg";
 
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+
 export default function Workouts() {
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if (!token) {
+            navigate("/Login")
+        }
+    }, [navigate])
+
     return (
         <div>
             <h1 className="Header">Choose Target Area, Create or Start Workout</h1>

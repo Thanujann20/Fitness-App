@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import "../styles/account.css"
-import axios from "axios"
+import api from "../api/api"
 import { useNavigate } from "react-router-dom"
 
 export default function SignUp() {
@@ -43,18 +43,14 @@ export default function SignUp() {
         }
 
         try {
-            const response = await axios.post("http://localhost:3000/api/auth/signup", {
+            const response = await api.post("/auth/signup", {
                 username,
                 email,
                 password
             })
 
-            localStorage.setItem("user", JSON.stringify(response.data.user))
-            // Login user
-            localStorage.setItem("token", response.data.token)
-
             alert(response.data.message)
-            navigate("/")
+            navigate("/Login")
 
         } 
         catch (error) {

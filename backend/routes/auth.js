@@ -2,11 +2,13 @@ import dotenv from "dotenv"
 dotenv.config({ path: './.env' })
 import express from "express"
 import bcrypt from "bcrypt"
+import { Resend } from "resend"
 import jwt from "jsonwebtoken"
 import User from "../models/User.js"
 
 const router = express.Router()
 const JWT_SECRET = process.env.JWT_SECRET
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 console.log("JWT_SECRET in auth.js:", JWT_SECRET ? "loaded" : "NOT LOADED")
 
@@ -34,14 +36,66 @@ router.post("/signup", async (req, res) => {
 
         const savedUser = await newUser.save()
 
+        const verificationToken = jwt.sign({ 
+            id: savedUser._id 
+            }, 
+            JWT_SECRET, 
+            { 
+                expiresIn: "1d" 
+            }
+        )
+        const verificationLink = `http://localhost:5173/verify-email?token=${verificationToken}`
+        try {
+            await resend.emails.send({
+                from: "PowerUp <onboarding@resend.dev>",
+                to: "thanujann12345@gmail.com",
+                subject: "Verify your email",
+                html: `
+                    <p>Username: ${savedUser.username},</p>
+                    <a href="${verificationLink}">Verify Email</a>
+                `
+            })
+            console.log("Verification email sent")
+            console.log("Verification link:", verificationLink)
+        } catch (emailErr) {
+            console.error("Resend email error:", emailErr)
+        }
+
         // Exclude password in response
         const { password: _, ...userData } = savedUser._doc
-
-        res.status(201).json({ message: "Signup successful!", user: userData })
+        res.status(201).json({ message: "Signup successful! Please verify your email.", user: userData })
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
 });
+
+router.get("/verify-email", async (req, res) => {
+    const token = req.query.token
+    if (!token) {
+        return res.status(400).json({ message: "Verification link is missing" })
+    }
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET)
+        const userId = decoded.id
+
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(400).json({ message: "Invalid verification token" })
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ message: "Email already verified" })
+        }
+
+        user.isVerified = true
+        await user.save()
+
+        res.status(200).json({ message: "Email verified successfully! You can now log in." })
+    } catch (err) {
+        res.status(400).json({ message: "Invalid or expired verification link" })
+    }
+})
 
 console.log("JWT_SECRET :", process.env.JWT_SECRET) 
 
@@ -54,6 +108,10 @@ router.post("/login", async (req, res) => {
 
         if (!user) {
             return res.status(400).json({ message: "Invalid username or password" })
+        }
+
+        if (!user.isVerified) {
+            return res.status(400).json({ message: "Please verify your email before logging in" })
         }
 
         const isMatch = await bcrypt.compare(password.trim(), user.password)
@@ -70,7 +128,7 @@ router.post("/login", async (req, res) => {
         }, 
             JWT_SECRET, 
             { 
-                expiresIn: "1h"
+                expiresIn: "7d"
             }
         )
 

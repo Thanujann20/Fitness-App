@@ -2,11 +2,11 @@ import { useState } from "react";
 import "../styles/exerciseCard.css";
 import checkImg from "../assets/check.png";
 
-export default function ExerciseCard({ exercise, index, onUpdate, onDelete }) {
+export default function ExerciseCard({ exercise, index, onUpdate, onDelete, onComplete }) {
 
     const [editing, setEditing] = useState(false);
 
-    const [completed, setComplete] = useState(false);
+    const [completed, setComplete] = useState(exercise.completed || false);
 
     const [formData, setFormData] = useState({
         name: exercise.name,
@@ -138,11 +138,13 @@ export default function ExerciseCard({ exercise, index, onUpdate, onDelete }) {
 
                     <div className="buttonRow">
                         <button onClick={() => setEditing(true)}>Edit</button>
-                        <button onClick={() => setComplete(true)}>Complete</button>
+                        <button onClick={() => {
+                            setComplete(true);
+                            onComplete(index, { ...exercise, completed: true });
+                        }}>Complete</button>
                         <button onClick={() => onDelete(index)}>Delete</button>
                     </div>
 
-                    
                 </>
                 
             )}

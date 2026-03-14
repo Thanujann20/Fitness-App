@@ -6,7 +6,8 @@ const SALT_ROUNDS = 10
 const userSchema = new mongoose.Schema({
 		username: { type: String, required: true, unique: true },
 		email: { type: String, required: true, unique: true },
-		password: { type: String, required: true }
+		password: { type: String, required: true },
+		isVerified: { type: Boolean, default: false }
 })
 
 // Hash password before saving it
@@ -19,7 +20,8 @@ userSchema.pre("save", async function (next) {
 				this.password = hash;
 				next()
 		} catch (err) {
-				
+				console.error("Error hashing password:", err)
+				next(err)
 		}
 })
 

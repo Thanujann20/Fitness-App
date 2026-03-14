@@ -1,20 +1,29 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "../styles/meals.css";
-import FoodCard from "./FoodCard";
+import { useState, useEffect } from "react"
+import api from "../api/api"
+import { useNavigate } from "react-router-dom"
+import "../styles/meals.css"
+import FoodCard from "./FoodCard"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 export default function Meals() {
-	const apiKey = import.meta.env.VITE_EDAMAM_API_KEY;
-	const userId = "12345"; // hardcoded user ID for demo purposes
-  	const navigate = useNavigate();
+	const apiKey = import.meta.env.VITE_EDAMAM_API_KEY
+  	const navigate = useNavigate()
 
-  	const [searchTerm, setSearchTerm] = useState("");
-  	const [results, setResults] = useState([]);
-  	const [meals, setMeals] = useState([]);
-  	const [isSearched, setSearched] = useState(false);
-  	const [portion, setPortion] = useState({});
-  	const [addingCustom, setAddingCustom] = useState(false);
+  	const [searchTerm, setSearchTerm] = useState("")
+  	const [results, setResults] = useState([])
+  	const [meals, setMeals] = useState([])
+  	const [isSearched, setSearched] = useState(false)
+  	const [portion, setPortion] = useState({})
+  	const [addingCustom, setAddingCustom] = useState(false)
+  	
+	const [selectedDate, setSelectedDate] = useState(new Date())
+
+	const formattedDate = selectedDate.toISOString().split("T")[0]
+
+	const handleDateChange = (date) => {
+		setSelectedDate(date)
+	}
 
 	const [formData, setFormData] = useState({
 		description: "",
@@ -22,61 +31,79 @@ export default function Meals() {
 		protein: "",
 		carbs: "",
 		fat: "",
-	});
+	})
 
-	//fetch meals from backend
+	// Fetch meals if logged in, redirect on error
 	useEffect(() => {
-		axios.get(`http://localhost:3000/api/meals/${userId}`)
-			.then((res) => setMeals(res.data))
-			.catch((err) => console.log(err));
-	}, []);
+		const storedUser = JSON.parse(localStorage.getItem("user"))
+		const token = localStorage.getItem("token")
+		console.log("Meals useEffect token:", token)
+		console.log("Meals useEffect user:", storedUser)
+
+		if (!storedUser || !token) {
+			console.log("No stored user or token, redirecting")
+			navigate("/Login")
+			return
+		}
+
+		api.get("/meals")
+			.then(res => setMeals(res.data))
+			.catch(err => {
+				console.log("Error fetching meals:", err.response?.status, err.message)
+				if (err.response?.status === 401) {
+					localStorage.clear()
+					navigate("/Login")
+				}
+			})
+	}, [navigate])
 
 	// Search USDA database for food items
 	const handleSearch = async () => {
 		try {
-			const response = await fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?query=${searchTerm}&api_key=${apiKey}`);
-			const data = await response.json();
-			setResults(data.foods || []);
-			setSearched(true);
+			const response = await fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?query=${searchTerm}&api_key=${apiKey}`)
+			const data = await response.json()
+			setResults(data.foods || [])
+			setSearched(true)
 		} catch (err) {
-			console.error(err);
-			alert("Failed to search USDA database");
+			console.error(err)
+			alert("Failed to search USDA database")
 		}
-	};
-	
-	const handleAdd = (meal) => {
-		axios.post("http://localhost:3000/api/meals", { ...meal, userId})
-		.then(res => setMeals([...meals, res.data]))
-		.catch(err => console.log(err));
-	};
+	}
 
+	const handleAdd = (meal) => {
+		api.post("/meals", meal)
+		.then(res => setMeals([...meals, res.data]))
+		.catch(err => console.log(err))
+	}
+
+	// Save custom meal
 	const handleSave = () => {
-		const { description, calories, protein, carbs, fat } = formData; 
+		const { description, calories, protein, carbs, fat } = formData
 
 		// Validate Description
 		if (!description.trim()) {
-			alert("Description cannot be empty");
-			return;
+			alert("Description cannot be empty")
+			return
 		}
 
 		if (!calories.trim() || !/^\d+$/.test(calories)) {
-			alert("Calories must be a number");
-			return;
+			alert("Calories must be a number")
+			return
 		}
 
 		if (!protein.trim() || !/^\d+$/.test(protein)) {
-			alert("Protein must be a number");
-			return;
+			alert("Protein must be a number")
+			return
 		}
 
 		if (!carbs.trim() || !/^\d+$/.test(carbs)) {
-			alert("Carbs must be a number");
-			return;
+			alert("Carbs must be a number")
+			return
 		}
 
 		if (!fat.trim() || !/^\d+$/.test(fat)) {
-			alert("Fat must be a number");
-			return;
+			alert("Fat must be a number")
+			return
 		}
 
 		const meal = {
@@ -85,28 +112,27 @@ export default function Meals() {
 			protein: Number(protein),
 			carbs: Number(carbs),
 			fat: Number(fat),
-			userId,
-		};
+		}
 
-		axios.post("http://localhost:3000/api/meals", meal)
+		api.post("/meals", meal)
 			.then(res => setMeals([...meals, res.data]))
-			.catch(err => console.log(err));
+			.catch(err => console.log(err))
 
-		setFormData({ description: "", calories: "", protein: "", carbs: "", fat: "" });
-		setAddingCustom(false);
-	};
+		setFormData({ description: "", calories: "", protein: "", carbs: "", fat: "" })
+		setAddingCustom(false)
+	}
 
 
 	const handleFormChange = (e) => {
-		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
-	};
+		const { name, value } = e.target
+		setFormData({ ...formData, [name]: value })
+	}
 
 	const handleDelete = (id) => {
-		axios.delete(`http://localhost:3000/api/meals/${id}`)
+		api.delete(`/meals/${id}`)
 			.then(() => setMeals(meals.filter((meal) => meal._id !== id)))
-			.catch((err) => console.log(err));
-  	};
+			.catch((err) => console.log(err))
+  	}
 
 	return (
 		<div>
@@ -115,6 +141,12 @@ export default function Meals() {
 		</div>
 
 		<h1>Meals</h1>
+
+		<div className="date-meals">
+			<p>Select Date:</p>
+			<DatePicker selected={selectedDate} onChange={handleDateChange} />
+		</div>
+
 		<p>Search for your favorite meals and track your macros</p>
 
 		<div className="search">
@@ -186,14 +218,14 @@ export default function Meals() {
 				<button onClick={handleSave}>Save</button>
 				<button
 					onClick={() => {
-					setAddingCustom(false);
+					setAddingCustom(false)
 					setFormData({
 						description: "",
 						calories: "",
 						protein: "",
 						carbs: "",
 						fat: "",
-					});
+					})
 					}}
 				>Cancel
 				</button>
@@ -207,10 +239,10 @@ export default function Meals() {
 		{isSearched && (
 			<div className="results">
 			{results.map((food) => {
-				const calories = food.foodNutrients.find((n) => n.nutrientName === "Energy")?.value || 0;
-				const protein = food.foodNutrients.find((n) => n.nutrientName === "Protein")?.value || 0;
-				const carbs = food.foodNutrients.find((n) => n.nutrientName === "Carbohydrate, by difference",)?.value || 0;
-				const fat =food.foodNutrients.find((n) => n.nutrientName === "Total lipid (fat)",)?.value || 0;
+				const calories = food.foodNutrients.find((n) => n.nutrientName === "Energy")?.value || 0
+				const protein = food.foodNutrients.find((n) => n.nutrientName === "Protein")?.value || 0
+				const carbs = food.foodNutrients.find((n) => n.nutrientName === "Carbohydrate, by difference",)?.value || 0
+				const fat =food.foodNutrients.find((n) => n.nutrientName === "Total lipid (fat)",)?.value || 0
 
 				return (
 				<div key={food.fdcId} className="foodCard">
@@ -227,9 +259,9 @@ export default function Meals() {
 						min="0.1"
 						value={portion[food.fdcId] || 1}
 						onChange={(e) => {
-							const val = Number(e.target.value);
+							const val = Number(e.target.value)
 							if (!isNaN(val) && val > 0) {
-							setPortion({ ...portion, [food.fdcId]: val });
+							setPortion({ ...portion, [food.fdcId]: val })
 							}
 						}}
 					/>
@@ -246,11 +278,11 @@ export default function Meals() {
 						>+ Add Meal
 					</button>
 				</div>
-				);
+				)
 			})}
 			</div>
 		)}
-		<h2>Today's Meals</h2>
+		<h2>Meals for {formattedDate}</h2>
 		<div className="meals">
 			{meals.map((meal, index) => (
 			<FoodCard
@@ -284,5 +316,5 @@ export default function Meals() {
 			</label>
 		</div>
 	</div>
-	);
+	)
 }
