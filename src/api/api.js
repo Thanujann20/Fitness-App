@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api = axios.create({
-    baseURL: "https://powerup-backend-f15s.onrender.com/api"
+    baseURL: "/api"
 })
 
 // Add token to headers
