@@ -16,9 +16,9 @@ export default function Meals() {
   	const [isSearched, setSearched] = useState(false)
   	const [portion, setPortion] = useState({})
   	const [addingCustom, setAddingCustom] = useState(false)
+	const [userCreatedAt, setUserCreatedAt] = useState(null)
   	
 	const [selectedDate, setSelectedDate] = useState(new Date())
-
 	const formattedDate = selectedDate.toISOString().split("T")[0]
 
 	const handleDateChange = (date) => {
@@ -46,7 +46,7 @@ export default function Meals() {
 			return
 		}
 
-		api.get("/meals")
+		api.get(`/meals?date=${formattedDate}`)
 			.then(res => setMeals(res.data))
 			.catch(err => {
 				console.log("Error fetching meals:", err.response?.status, err.message)
@@ -55,7 +55,14 @@ export default function Meals() {
 					navigate("/Login")
 				}
 			})
-	}, [navigate])
+	}, [navigate, formattedDate])
+
+	useEffect(() => {
+		const user = JSON.parse(localStorage.getItem("user"))
+		if (user?.createdAt) {
+			setUserCreatedAt(new Date(user.createdAt))
+		}
+	}, [])
 
 	// Search USDA database for food items
 	const handleSearch = async () => {
@@ -71,7 +78,7 @@ export default function Meals() {
 	}
 
 	const handleAdd = (meal) => {
-		api.post("/meals", meal)
+		api.post("/meals", {...meal, date: formattedDate })
 		.then(res => setMeals([...meals, res.data]))
 		.catch(err => console.log(err))
 	}
@@ -114,7 +121,7 @@ export default function Meals() {
 			fat: Number(fat),
 		}
 
-		api.post("/meals", meal)
+		api.post("/meals", {...meal, date: formattedDate})
 			.then(res => setMeals([...meals, res.data]))
 			.catch(err => console.log(err))
 
@@ -144,7 +151,7 @@ export default function Meals() {
 
 		<div className="date-meals">
 			<p>Select Date:</p>
-			<DatePicker selected={selectedDate} onChange={handleDateChange} />
+			<DatePicker selected={selectedDate} onChange={handleDateChange} minDate={userCreatedAt} maxDate={new Date()} />
 		</div>
 
 		<p>Search for your favorite meals and track your macros</p>

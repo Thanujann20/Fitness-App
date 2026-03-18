@@ -8,6 +8,7 @@ import User from "../models/User.js"
 
 const router = express.Router()
 const JWT_SECRET = process.env.JWT_SECRET
+const EMAIL_TO = process.env.EMAIL_TO
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 console.log("JWT_SECRET in auth.js:", JWT_SECRET ? "loaded" : "NOT LOADED")
@@ -43,12 +44,12 @@ router.post("/signup", async (req, res) => {
             { 
                 expiresIn: "1d" 
             }
-        )
+        ) 
         const verificationLink = `http://localhost:5173/verify-email?token=${verificationToken}`
         try {
             await resend.emails.send({
                 from: "PowerUp <onboarding@resend.dev>",
-                to: "thanujann12345@gmail.com",
+                to: EMAIL_TO,
                 subject: "Verify your email",
                 html: `
                     <p>Username: ${savedUser.username},</p>

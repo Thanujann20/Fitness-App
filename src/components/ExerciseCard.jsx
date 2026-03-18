@@ -1,77 +1,76 @@
-import { useState } from "react";
-import "../styles/exerciseCard.css";
-import checkImg from "../assets/check.png";
+import { useState } from "react"
+import "../styles/exerciseCard.css"
+import checkImg from "../assets/check.png"
 
 export default function ExerciseCard({ exercise, index, onUpdate, onDelete, onComplete }) {
 
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = useState(false)
 
-    const [completed, setComplete] = useState(exercise.completed || false);
+    const [completed, setComplete] = useState(exercise.completed || false)
 
     const [formData, setFormData] = useState({
         name: exercise.name,
         weight: exercise.weight,
         sets: exercise.sets,
         reps: exercise.reps
-    });
+    })
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
-        });
-    };
+        })
+    }
 
     const handleSave = () => {
-        const weight = String(formData.weight).trim();
-        const sets = String(formData.sets).trim();
-        const reps = String(formData.reps).trim();
+        const weight = String(formData.weight).trim()
+        const sets = String(formData.sets).trim()
+        const reps = String(formData.reps).trim()
 
         // Validate Name
         if (!formData.name.trim()) {
-            alert("Name cannot be empty");
+            alert("Name cannot be empty")
             return;
         }
 
         // Validate weight
         if (!weight) {
-            alert("Weight cannot be empty");
-            return;
+            alert("Weight cannot be empty")
+            return
         }
         if (weight.toLowerCase() !== "bodyweight" && !/^\d+$/.test(weight)) {
-            alert("Weight must be a number or Bodyweight");
-            return;
+            alert("Weight must be a number or Bodyweight")
+            return
         }
 
         // Validate sets
         if (!sets || !/^\d+$/.test(sets) || parseInt(sets) <= 0) {
-            alert("Sets must be a positive number");
-            return;
+            alert("Sets must be a positive number")
+            return
         }
 
         // Validate reps
         if (!reps) {
-            alert("Reps cannot be empty");
-            return;
+            alert("Reps cannot be empty")
+            return
         }
 
-        const isNumber = /^\d+$/.test(reps) && parseInt(reps) > 0;
-        const isTime = /^\d+\s*(sec|secs|seconds|mins|minutes|min)?$/i.test(reps);
+        const isNumber = /^\d+$/.test(reps) && parseInt(reps) > 0
+        const isTime = /^\d+\s*(sec|secs|seconds|mins|minutes|min)?$/i.test(reps)
 
         if (!isNumber && !isTime) {
-            alert("Reps must be a positive number or time such as '60 sec' or '1 min'");
-            return;
+            alert("Reps must be a positive number or time such as '60 sec' or '1 min'")
+            return
         }
 
-        onUpdate(index, {
-            ...exercise,
+        onUpdate({
             name: formData.name,
             weight,
-            sets,
+            sets: Number(sets),
             reps
-        });
-        setEditing(false);
-    };
+        })
+        setEditing(false)
+    }
 
     return (
         <div className="ECard">
@@ -154,5 +153,5 @@ export default function ExerciseCard({ exercise, index, onUpdate, onDelete, onCo
                 </div>
             )}
         </div>
-    );
+    )
 }

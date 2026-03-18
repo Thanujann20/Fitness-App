@@ -6,7 +6,8 @@ const mealSchema = new mongoose.Schema({
   calories: { type: Number, required: true },
   protein: { type: Number, required: true },
   carbs: { type: Number, required: true },
-  fat: { type: Number, required: true }
+  fat: { type: Number, required: true },
+  date: { type: Date, required: true }
 });
 
 export default mongoose.model("Meals", mealSchema);

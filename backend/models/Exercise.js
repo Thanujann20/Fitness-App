@@ -7,7 +7,8 @@ const exerciseSchema = new mongoose.Schema({
     sets: { type: Number, required: true },
     reps: { type: String, required: true },
     muscleGroup: { type: String, required: true },
-    completed: { type: Boolean, default: false }
+    completed: { type: Boolean, default: false },
+    date: {type: Date, required: true}
 });
 
 export default mongoose.model("Exercise", exerciseSchema);

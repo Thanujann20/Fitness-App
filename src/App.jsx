@@ -5,11 +5,7 @@ import Navbar from './components/Navbar'
 import Workouts from './components/Workouts'
 import Meals from './components/Meals'
 import Goals from './components/Goals'
-import Chest from "./components/Chest"
-import Arms from "./components/Arms"
-import Back from "./components/Back"
-import Legs from "./components/Legs"
-import Core from "./components/Core"
+import Muscle from "./components/Muscle"
 import Login from "./components/Login"
 import SignUp from "./components/SignUp"
 import VerifyEmail from "./components/VerifyEmail"
@@ -28,11 +24,11 @@ function App() {
         <Route path='/Workouts' element={<Workouts/>}/>
         <Route path='/Meals' element={<Meals/>}/>
         <Route path='/Goals' element={<Goals/>}/>
-        <Route path="/Chest" element={<Chest />} />
-        <Route path="/Arms" element={<Arms />} />
-        <Route path="/Back" element={<Back />} />
-        <Route path="/Legs" element={<Legs />} />
-        <Route path="/Core" element={<Core />} />
+        <Route path="/Chest" element={<Muscle muscleGroup="Chest" />} />
+        <Route path="/Arms" element={<Muscle muscleGroup="Arms" />} />
+        <Route path="/Back" element={<Muscle muscleGroup="Back" />} />
+        <Route path="/Legs" element={<Muscle muscleGroup="Legs" />} />
+        <Route path="/Core" element={<Muscle muscleGroup="Core" />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/verify-email" element={<VerifyEmail />} />

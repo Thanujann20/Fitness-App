@@ -1,12 +1,43 @@
-# React + Vite
+### PowerUp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PowerUp is a full-stack fitness tracker that helps users log exercises and track daily meals. Users can add, edit, and delete exercises, search for meals via the USDA Food Database API, and maintain a record of their fitness progress. 
 
-Currently, two official plugins are available:
+## Tech Stack
+Frontend: React + Vite, React Router, React Datepicker, Axios
+Backend: Express, Node.js
+Authentication and Security: bcrypt, JWT
+Database: MongoDB
+Email Verification: Resend
+APIs: USDA Food Database API
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Demo account
+You can use the following account to access the site on netlify 
+Username: powerup1.0
+Password: qwe123asd
 
-## Expanding the ESLint configuration
+## Installation and setup
+1. Clone the repository.
+# Frontend:
+Copy .env.example → .env
+Install dependencies: npm install
+Start the dev server: npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Backend:
+Copy .env.example → .env
+Install dependencies: npm install
+Start the backend server: npm run dev
+
+Both frontend and backend .env files must be filled in with your own API keys, MongoDB URI, JWT secret, and email info.
+
+## Features:
+* Log exercises by muscle group and date
+
+* Add, edit, complete, and delete exercises
+
+* Search meals using USDA Food Database API
+
+* Add your own custom meals
+
+* Track daily calories and macros
+
+* Email verification for new accounts
