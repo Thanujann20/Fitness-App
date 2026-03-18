@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from "axios"
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/api"
-});
+    baseURL: "https://powerup-backend-f15s.onrender.com"
+})
 
 // Add token to headers
 api.interceptors.request.use(
@@ -16,4 +16,4 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 )
 
-export default api;
+export default api
