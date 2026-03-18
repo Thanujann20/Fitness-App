@@ -8,7 +8,7 @@ export default function Card ({title, image, to, description}) {
             <img src={image} alt={title} />
             <h5>{title}</h5>
             {description && <p>{description}</p>}
-            <Link to={to}>Go</Link>
+            {to && <Link to={to}>Go</Link>}
         </div>
     )
 }

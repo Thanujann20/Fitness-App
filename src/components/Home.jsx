@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import "../styles/home.css";
-import "../styles/card.css";
-import Card from "./Card";
-import workoutImg from "../assets/workout.avif";
-import mealsImg from "../assets/Meals.webp";
-import progressImg from "../assets/progress.png";
+import "../styles/home.css"
+import "../styles/card.css"
+import Card from "./Card"
+import workoutImg from "../assets/workout.avif"
+import mealsImg from "../assets/Meals.webp"
+import progressImg from "../assets/progress.png"
 
 
 function Home() {
@@ -13,12 +13,12 @@ function Home() {
     const [user, setUser] = useState(null)
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token")
         if (token) {
-            const userData = JSON.parse(localStorage.getItem("user"));
-            setUser(userData);
+            const userData = JSON.parse(localStorage.getItem("user"))
+            setUser(userData)
         }
-    }, []); 
+    }, [])
 
     return (
         <div>
@@ -33,4 +33,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default Home
