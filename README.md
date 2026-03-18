@@ -1,4 +1,4 @@
-### PowerUp
+# PowerUp
 
 PowerUp is a full-stack fitness tracker that helps users log exercises and track daily meals. Users can add, edit, and delete exercises, search for meals via the USDA Food Database API, and maintain a record of their fitness progress. 
 
@@ -17,12 +17,12 @@ Password: qwe123asd
 
 ## Installation and setup
 1. Clone the repository.
-# Frontend:
+### Frontend:
 Copy .env.example → .env
 Install dependencies: npm install
 Start the dev server: npm run dev
 
-# Backend:
+### Backend:
 Copy .env.example → .env
 Install dependencies: npm install
 Start the backend server: npm run dev
