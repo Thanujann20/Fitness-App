@@ -2,6 +2,14 @@
 
 PowerUp is a full-stack fitness tracker that helps users log exercises and track daily meals. Users can add, edit, and delete exercises, search for meals via the USDA Food Database API, and maintain a record of their fitness progress. 
 
+## Live Demo
+Check out the deployed app: (https://powerup-fitness1.netlify.app)
+
+## Demo account
+You can use the following account to access the site on netlify 
+Username: powerup1.0
+Password: qwe123asd
+
 ## Tech Stack
 Frontend: React + Vite, React Router, React Datepicker, Axios
 Backend: Express, Node.js
@@ -9,11 +17,6 @@ Authentication and Security: bcrypt, JWT
 Database: MongoDB
 Email Verification: Resend
 APIs: USDA Food Database API
-
-## Demo account
-You can use the following account to access the site on netlify 
-Username: powerup1.0
-Password: qwe123asd
 
 ## Installation and setup
 1. Clone the repository.
