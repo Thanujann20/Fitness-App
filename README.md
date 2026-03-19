@@ -3,7 +3,8 @@
 PowerUp is a full-stack fitness tracker that helps users log exercises and track daily meals. Users can add, edit, and delete exercises, search for meals via the USDA Food Database API, and maintain a record of their fitness progress. 
 
 ## Live Demo
-Check out the deployed app: (https://powerup-fitness1.netlify.app)
+Check out the deployed app: [Frontend (Netlify)](https://powerup-fitness1.netlify.app)  
+Backend (Render API): [https://powerup-backend-f15s.onrender.com](https://powerup-backend-f15s.onrender.com)
 
 ## Demo account
 You can use the following account to access the site on netlify 
