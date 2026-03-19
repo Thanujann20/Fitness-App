@@ -36,16 +36,11 @@ Password: qwe123asd
 - USDA Food Database API
 
 ## Installation and setup
-1. Clone the repository.
-### Frontend:
-Copy .env.example → .env
-Install dependencies: npm install
-Start the dev server: npm run dev
-
-### Backend:
-Copy .env.example → .env
-Install dependencies: npm install
-Start the backend server: npm run dev
+1. Clone the repository. <br>
+2. Copy .env.example → .env <br>
+3. Install dependencies: npm install <br>
+4. Start the dev server: npm run dev <br>
+5. Repeat steps 2-4 for the backend .env.example <br>
 
 Both frontend and backend .env files must be filled in with your own API keys, MongoDB URI, JWT secret, and email info.
 
