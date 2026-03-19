@@ -12,12 +12,28 @@ Username: powerup1.0
 Password: qwe123asd
 
 ## Tech Stack
-Frontend: React + Vite, React Router, React Datepicker, Axios
-Backend: Express, Node.js
-Authentication and Security: bcrypt, JWT
-Database: MongoDB
-Email Verification: Resend
-APIs: USDA Food Database API
+**Frontend:**  
+- React + Vite  
+- React Router  
+- React Datepicker  
+- Axios  
+
+**Backend:**  
+- Express  
+- Node.js  
+
+**Authentication and Security:**  
+- bcrypt  
+- JWT  
+
+**Database:**  
+- MongoDB  
+
+**Email Verification:**  
+- Resend  
+
+**APIs:**  
+- USDA Food Database API
 
 ## Installation and setup
 1. Clone the repository.
