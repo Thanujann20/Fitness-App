@@ -16,12 +16,20 @@ export default function Muscle({ muscleGroup }) {
 		const saved = localStorage.getItem("selectedDate")
 		return saved ? new Date(saved) : new Date()
 	})
+
 	const [userCreatedAt, setUserCreatedAt] = useState(null)
 	const [exercises, setExercises] = useState([])
 	const [showAddForm, setShowAddForm] = useState(false)
 
-	const formattedDate = selectedDate.toISOString().split("T")[0]
+	function formatDateLocal(date) {
+		const year = date.getFullYear()
+		const month = String(date.getMonth() + 1).padStart(2, "0")
+		const day = String(date.getDate()).padStart(2, "0")
+		return `${year}-${month}-${day}`
+	}
 
+	const formattedDate = formatDateLocal(selectedDate)
+	
 	// Load user creation date from localStorage
 	useEffect(() => {
 		const user = JSON.parse(localStorage.getItem("user"))
